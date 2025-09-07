@@ -1,25 +1,23 @@
 package com.example.ecoimpact.composables
 
+
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DriveEta
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,18 +39,18 @@ import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun CarbonScreen(
-    onNavigateToResult: () -> Unit,
+    onNavigateToResult: (String, String) -> Unit,
     modifier: Modifier = Modifier,
     emission: Double = 12.5,
     comparison: List<Pair<String, Double>> = listOf(
         "Carro médio" to 20.0,
         "Ônibus" to 15.0
     ),
-
     tips: List<String> = listOf(
         "Use transporte público",
         "Prefira caminhada ou bicicleta"
-    )
+    ),
+    onLogin: () -> Unit
 ) {
     val context = LocalContext.current
     var distancia by remember { mutableStateOf("15") }
@@ -124,7 +122,7 @@ fun CarbonScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    // Aqui vamos adicionar os botões
+                    // Botões
 
                     //Carro
                     Card(
@@ -241,19 +239,17 @@ fun CarbonScreen(
                 onClick = {
                     if (distancia.isEmpty()) {
                         distanciaHasError = true
-                        Toast.makeText(context, "Preencha a distância", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, "Preencha a distância", Toast.LENGTH_SHORT).show()
                     } else {
                         distanciaHasError = false
-                        // Aqui a gente vai chamar a função de navegação
-                        onNavigateToResult()
+                        // Passa valores para a tela de resultado
+                        onNavigateToResult(distancia, selectedTransport)
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)), // Cor verde
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
                 shape = RoundedCornerShape(16.dp),
-                // ADICIONE ESTA LINHA:
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp) // Sombreado para o botão
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 8.dp)
             ) {
                 Text(
                     text = "Calcular Impacto",
@@ -266,11 +262,18 @@ fun CarbonScreen(
     }
 }
 
+private fun ColumnScope.onNavigateToResult() {
+    TODO("Not yet implemented")
+}
+
 // --------- Preview ---------
 @Preview(showBackground = true)
 @Composable
 fun CarbonScreenPreview() {
     EcoImpactTheme {
-        CarbonScreen(onNavigateToResult = {})
+        CarbonScreen(
+            onNavigateToResult = { _, _ ->},
+            onLogin = {}
+        )
     }
 }
