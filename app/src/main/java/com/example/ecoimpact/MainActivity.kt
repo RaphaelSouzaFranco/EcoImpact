@@ -15,9 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.navigation.compose.composable  // ADICIONE ESTE IMPORT
 import androidx.navigation.compose.rememberNavController
 import com.example.ecoimpact.composables.Screen
 import com.example.ecoimpact.ui.theme.EcoImpactTheme
@@ -29,13 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             EcoImpactTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                 EcoImpact(modifier = Modifier.padding(innerPadding))
-                    setContent {
-                        MaterialTheme {
-                            EcoImpact()
-                        }
-                    }
-
+                    EcoImpact(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -45,12 +38,24 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun EcoImpact(modifier: Modifier = Modifier) {
     val nav = rememberNavController()
-    NavHost(navController = nav , startDestination = Screen.Carbon.route, modifier=modifier) {
-        composable (Screen.Carbon.route){
+    NavHost(
+        navController = nav,
+        startDestination = Screen.Login.route,
+        modifier = modifier
+    ) {
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onLoginSuccess = {
+                    nav.navigate(Screen.Dashboard.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            )
 
         }
-    }//TROCAR PARA TELA DE LOGIN QUANDO FEITA (SCREEN.LOGIN.ROUTE)
+    }
 }
+
 
 
 
