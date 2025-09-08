@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.ecoimpact.composables.Screen
 import com.example.ecoimpact.ui.theme.EcoImpactTheme
@@ -29,6 +30,12 @@ class MainActivity : ComponentActivity() {
             EcoImpactTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                  EcoImpact(modifier = Modifier.padding(innerPadding))
+                    setContent {
+                        MaterialTheme {
+                            EcoImpact()
+                        }
+                    }
+
                 }
             }
         }
@@ -38,7 +45,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun EcoImpact(modifier: Modifier = Modifier) {
     val nav = rememberNavController()
-    NavHost(navController = nav , startDestination = Screen.Carbon.route, modifier=modifier) { }//TROCAR PARA TELA DE LOGIN QUANDO FEITA (SCREEN.LOGIN.ROUTE)
+    NavHost(navController = nav , startDestination = Screen.Carbon.route, modifier=modifier) {
+        composable (Screen.Carbon.route){
+
+        }
+    }//TROCAR PARA TELA DE LOGIN QUANDO FEITA (SCREEN.LOGIN.ROUTE)
 }
+
 
 
